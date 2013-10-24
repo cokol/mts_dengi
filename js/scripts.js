@@ -1,4 +1,4 @@
-﻿$(window).load(function(){
+$(window).load(function(){
   $(".main-slider").each(function () {
     $(this).mainSlider();
   });
@@ -11,18 +11,45 @@ $(window).resize(function() {
   } else {
     $("body").removeClass("body-narrow")
   }
+  
+  $(".pic-element, .pic-group").each(function() {
+    $(this).attr("style","");
+    $(this).css("left",$(this).css("left"));
+    $(this).css("top",$(this).css("top"));
+    $(this).css("width",$(this).css("width"));
+    if ($(this).css("height")) {
+      $(this).css("height",$(this).css("height"));
+      
+    }
+    $(this).attr("origWidth",$(this).css("width").replace("px",""));
+    $(this).attr("origHeight",$(this).css("height").replace("px",""));
+    $(this).css("height","auto")
+    $(this).attr("origLeft", $(this).css("left").replace("px",""));
+    $(this).attr("origTop", $(this).css("top").replace("px",""));
+  });
+  
 });
 
 $(document).ready(function () {
+  
+  $(".agree-text-trigger span").click(function() {
+    $(".agree-text").slideToggle(300);
+    $("html,body").animate({
+      scrollTop: $(this).offset().top - 20
+    },500);
+  });
 
-	$(".agree-text-trigger span").click(function() {
-		$(".agree-text").slideToggle(300);
-		$("html,body").animate({
-			scrollTop: $(this).offset().top - 20
-		},500);
-	});
+  $("#request_phone").mask("+7 9999999999");
 
-	ga('send', 'event', 'PageLoad', 'Finish');
+  $(".pic-element").hide();
+
+  $(".pic-element, .pic-group").each(function() {
+    $(this).attr("origWidth",$(this).css("width").replace("px",""));
+    $(this).attr("origHeight",$(this).css("height").replace("px",""));
+    $(this).css("height","auto")
+    $(this).attr("origLeft", $(this).css("left").replace("px",""));
+    $(this).attr("origTop", $(this).css("top").replace("px",""));
+  });
 
   if ($("input:checkbox").length) {
     $("input:checkbox").iCheck()
@@ -62,7 +89,7 @@ $(document).ready(function () {
   
   
   if ($(".request-form label span").length) {
-    $(".request-form label span").textShadow('1px 1px #005568');
+    //$(".request-form label span").textShadow('1px 1px #005568');
   }
   
   $("input:submit").each(function () {
@@ -78,7 +105,7 @@ $(document).ready(function () {
     divBtn.on("click",function () {
       submit.click();
     });
-    divBtn.children("span").textShadow('1px 1px #880000');;
+    //divBtn.children("span").textShadow('1px 1px #880000');;
   });
 
   $("input:text").each(function () {
@@ -118,53 +145,47 @@ $(document).ready(function () {
     }
   });
 
-  $('#requestForm input[name="request_phone"]').bind('keyup', function(e) {
-	DPCM($(this));
-  })
-  
 	$("#requestForm").submit(function() {
     if ($("#requestForm").valid()) {
-		ga('send', 'event', 'RequestForm', 'Submit');
-		
-		$(".loader").show();
-		$.ajax({
-			type: "POST",
-			url: "send.php",
-			data: { 
-				request_lastname: $("#request_lastname").val(), 
-				request_name: $("#request_name").val(),
-				request_email: $("#request_email").val(),
-				request_phone: $("#request_phone").val()
-			}
-		}).done(function() {
-
-		/* Submit message */
-		$(".loader").hide();
-		$(".form-wrapper").hide();
-		$(".map-content").show();
-
-		$("#searchForm").validate({
-				sendForm : false,
-				messages: {
-				searchInput: "Введите адрес"
-			},
-			errorPlacement: function(error, element) {
-				element.parents(".input-wrapper").addClass("input-wrapper-error");
-				error.insertAfter(element);
-				element.focus(function() {
-					error.remove();
-				});
-			},
-			unhighlight: function(element, errorClass, validClass) {
-				$(element).parents(".input-wrapper").removeClass("input-wrapper-error");
-				$(element).removeClass(errorClass);
-			}
-		});
-
-		showMap();
-
-		});
-		return false;
+      $(".loader").show();
+      $.ajax({
+        type: "POST",
+        url: "send.php",
+          data: { 
+            request_lastname: $("#request_lastname").val(), 
+            request_name: $("#request_name").val(),
+            request_email: $("#request_email").val(),
+            request_phone: $("#request_phone").val()
+          }
+        }).done(function() {
+        
+        /* Submit message */
+        $(".loader").hide();
+        $(".form-wrapper").hide();
+        $(".map-content").show();
+        
+        $("#searchForm").validate({
+          sendForm : false,
+          messages: {
+            searchInput: "Введите адрес"
+          },
+          errorPlacement: function(error, element) {
+            element.parents(".input-wrapper").addClass("input-wrapper-error");
+            error.insertAfter(element);
+            element.focus(function() {
+              error.remove();
+            });
+          },
+          unhighlight: function(element, errorClass, validClass) {
+            $(element).parents(".input-wrapper").removeClass("input-wrapper-error");
+            $(element).removeClass(errorClass);
+          }
+        });
+        
+        showMap();
+        
+      });
+      return false;
     }
 	});
   
@@ -221,12 +242,12 @@ $(document).ready(function () {
       }, 10000);
       
       listerItems.on("click",function () {
-        slides.find(".slide-content").hide();
-        slides.find(".pic-element").hide();
-        slides.find(".pic-group").hide();
-        $(".pic-element").stop().hide();
         
         if (!$(this).hasClass("act")) {
+          slides.find(".slide-content").hide();
+          slides.find(".pic-element").hide();
+          slides.find(".pic-group").hide();
+          $(".pic-element").stop().hide();
           
           timer.restart();
         
@@ -303,8 +324,8 @@ $(document).ready(function () {
     
     var card = slider.find($(".card"));
   
-    card.css("left",500 + slider.width()).show().transition({
-       left:586
+    card.css("left",650 + slider.width()).show().transition({
+      left:586
     },1000);
     
     var slideTtl = slider.find("h2");
@@ -433,7 +454,7 @@ function mapInit () {
     $(".map-search span").each(function() {
       
       if (!$(this).hasClass("shadow") && !$(this).children(".shadow").length) {
-        $(this).textShadow('1px 1px #005568');
+        //$(this).textShadow('1px 1px #005568');
       }
     });
     
@@ -558,7 +579,7 @@ function mapInit () {
               hours: stores[i].openingHours
             },
             {
-              iconImageHref: 'images/map-pin.png',
+              iconImageHref: '../images/map-pin.png',
               // Размеры метки.
               iconImageSize: [24, 40],
               // Смещение левого верхнего угла иконки относительно
@@ -633,7 +654,6 @@ function mapInit () {
   
   $(document).on('submit','#searchForm',function(e) {
     var searchRequest = $("#searchInput").val();
-	ga('send', 'event', 'SearchForm', 'Submit');
     
     ymaps.geocode(searchRequest, { results: 1 }).then(function (res) {
       // Выбираем первый результат геокодирования.
@@ -866,10 +886,9 @@ function sliderAnimation(slideNum) {
     
     var t01 = setTimeout(function() {
     
-    
       box.css("left",580).css("top",44).show().stop().animate({
-        left: 490,
-        top: 52
+        left: box.attr("origLeft"),
+        top: box.attr("origTop")
       },450);
       
       $({deg: 20}).animate({deg: 0}, {
@@ -884,7 +903,7 @@ function sliderAnimation(slideNum) {
     },1500);
     
     var t02 = setTimeout(function() {
-      coins.css("width",299).css("height",166).css("left",477).css("top",131).css("z-index",4).fadeIn(1000);
+      coins.hide().css("z-index",4).fadeIn(1000);
     },2500);
     
     // var t02 = setTimeout(function() {
@@ -921,8 +940,8 @@ function sliderAnimation(slideNum) {
     var cursor = $("#slider-cursor");
     
     var t11 = setTimeout(function() {
-      notebook.css("left",500 + $(".main-slider").width() - notebook.width()).show().stop().transition({
-        left:441
+      notebook.css("left",550 - parseInt($(".main-slider").css("margin-left")) + $(".main-slider").width() - notebook.width()).show().stop().transition({
+        left: parseInt(notebook.attr("origLeft"))
       },1100,'easeInOutSine');
       
       /*543,-3*/
@@ -930,9 +949,9 @@ function sliderAnimation(slideNum) {
     },300);
     
     var t12 = setTimeout(function() {
-      cursor.css("left",$(".section-wrapper").eq(0).offset().left + $(".main-slider").width()).css("top",-230).show().stop().transition({
-        left:622,
-        top:170
+      cursor.css("left",$(".section-wrapper").eq(0).offset().left - parseInt($(".main-slider").css("margin-left")) + $(".main-slider").width()).css("top",-230).show().stop().transition({
+        left:parseInt(cursor.attr("origLeft")),
+        top:parseInt(cursor.attr("origTop"))
       },1100,'easeInOutSine');
       
       /*543,-3*/
@@ -941,15 +960,13 @@ function sliderAnimation(slideNum) {
     
     var t13 = setTimeout(function() {
       cursor.stop().animate({
-        width:55,
-        height:90
+        width:cursor.attr("origWidth") - 8
       },50);
     },2900);
     
     var t14 = setTimeout(function() {
       cursor.stop().animate({
-        width:61,
-        height:100
+        width:cursor.attr("origWidth")
       },50);
     },3000);
     
@@ -967,8 +984,8 @@ function sliderAnimation(slideNum) {
     var scarf = $("#slider-scarf");
     
     var t21 = setTimeout(function() {
-      bag.css("left",500 + $(".main-slider").width() - bag.width()).show().stop().transition({
-        left:465
+      bag.css("left",650 - parseInt($(".main-slider").css("margin-left")) + $(".main-slider").width() - bag.width()).show().stop().transition({
+        left:parseInt(bag.attr("origLeft"))
       },1100,'easeInOutSine');
       
       /*543,-3*/
@@ -978,7 +995,7 @@ function sliderAnimation(slideNum) {
     var t22 = setTimeout(function() {
       
       shoes.css("left",-550).show().transition({
-        left:409
+        left:parseInt(shoes.attr("origLeft"))
       },1300,'easeInOutSine');
       
       /*543,-3*/
@@ -986,14 +1003,14 @@ function sliderAnimation(slideNum) {
     },800);
     
     var t23 = setTimeout(function() {
-      shirt.css("top",-22).fadeIn(500);
+      shirt.fadeIn(500);
       
       /*543,-3*/
       
     },2100);
     
     var t24 = setTimeout(function() {
-      scarf.css("top",-8).fadeIn(500);
+      scarf.fadeIn(500);
       
       /*543,-3*/
       
@@ -1009,11 +1026,10 @@ function sliderAnimation(slideNum) {
     //
     
     var t31 = setTimeout(function() {
-      phone.css("left",489).css("top",165).css("width",10).css("height",10).show().stop().transition({
-        width:129,
-        height:299,
-        left:489,
-        top:0
+      phone.css("left",parseInt(phone.attr("origLeft"))+parseInt(phone.attr("origWidth"))/2).css("top",parseInt(phone.attr("origTop"))+parseInt(phone.attr("origHeight"))/2).css("width",10).show().stop().transition({
+        width:parseInt(phone.attr("origWidth")),
+        left:parseInt(phone.attr("origLeft")),
+        top:parseInt(phone.attr("origTop"))
       },500);
       
       /*543,-3*/
@@ -1021,11 +1037,10 @@ function sliderAnimation(slideNum) {
     },500);
     
     var t32 = setTimeout(function() {
-      paypass.css("left",727).css("top",213).css("width",10).css("height",10).show().stop().transition({
-        width:141,
-        height:147,
-        left:588,
-        top:126
+      paypass.css("left",parseInt(paypass.attr("origLeft"))+parseInt(paypass.attr("origWidth"))/2).css("top",parseInt(paypass.attr("origTop"))+parseInt(paypass.attr("origHeight")/2)).css("width",10).show().stop().transition({
+        width:parseInt(paypass.attr("origWidth")),
+        left:parseInt(paypass.attr("origLeft")),
+        top:parseInt(paypass.attr("origTop"))
       },500,function() {
         $("#slider-lamps").show();
         lamp.eq(0).fadeIn(50).delay(150).fadeOut(50).delay(1500).fadeIn(50).delay(150).fadeOut(50);
@@ -1080,8 +1095,8 @@ function sliderAnimation(slideNum) {
     var backpack = $("#slider-backpack");
     
     var t41 = setTimeout(function() {
-      backpack.css("left",500 + $(".main-slider").width() - backpack.width()).show().stop().transition({
-        left:454
+      backpack.css("left",650 - parseInt($(".main-slider").css("margin-left")) + $(".main-slider").width() - backpack.width()).show().stop().transition({
+        left:parseInt(backpack.attr("origLeft"))
       },1200,"easeInOutSine");
       
       /*543,-3*/
@@ -1108,11 +1123,3 @@ $.fn.animateRotate = function(angle, duration, easing, complete){
         });
     });
 };
-
-function DPCM(input) {
-    var value = input.val();
-    var re = /[^0-9\-\.]/gi;
-    if (re.test(value)) {
-        value = value.replace(re, '');
-        input.val(value);
-}}
