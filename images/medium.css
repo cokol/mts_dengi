@@ -61,7 +61,7 @@ body {
 
 #top-wrapper {
   min-height: 100%;
-  /* width:1024px; */
+  min-width:1024px;
   width:100%;
   *overflow-x: hidden;
   position:relative;
@@ -69,13 +69,13 @@ body {
 
 #top-content {
   overflow:auto;
-	padding-bottom: 269px;
+	padding-bottom: 98px;
 }
 
 #footer {
   position: relative;
-	margin-top: -269px;
-	height: 269px;
+	margin-top: -98px;
+	height: 98px;
 	clear:both;
   min-width:895px;
   color:#606060;
@@ -420,22 +420,10 @@ h3 {
   background-position:0 -138px;
 }
 
-.request-form .submit-disabled,
-.request-form .submit-disabled:active {
-  opacity:.7;
-  filter:alpha(opacity=70);
-  cursor:default;
-  background-position:0 -100px;
-}
-
 .request-form .form-submit span {
   left:49px;
   top:12px;
   cursor:pointer;
-}
-
-.request-form .submit-disabled span {
-  cursor:default;
 }
 
 .search-form .form-submit {
@@ -706,77 +694,4 @@ h3 {
 
 .money-btn {
   display:none;
-}
-
-/* iCheck */
-
-/* iCheck plugin Futurico skin
------------------------------------ */
-.icheckbox,
-.iradio {
-    display: block;
-    margin: 0;
-    padding: 0;
-    width: 23px;
-    height: 23px;
-    background: url(../images/icheck.png) no-repeat;
-    border: none;
-    cursor: pointer;
-    float:left;
-    margin-right:11px;
-    margin-top:-4px;
-}
-
-.icheckbox {
-    background-position: 0 0;
-}
-    .icheckbox.checked {
-        background-position: -23px 0;
-    }
-    .icheckbox.disabled {
-        background-position: -36px 0;
-        cursor: default;
-    }
-    .icheckbox.checked.disabled {
-        background-position: -54px 0;
-    }
-
-.iradio {
-    background-position: -72px 0;
-}
-    .iradio.checked {
-        background-position: -90px 0;
-    }
-    .iradio.disabled {
-        background-position: -108px 0;
-        cursor: default;
-    }
-    .iradio.checked.disabled {
-        background-position: -126px 0;
-    }
-
-/* Retina support */
-@media only screen and (-webkit-min-device-pixel-ratio: 1.5),
-       only screen and (-moz-min-device-pixel-ratio: 1.5),
-       only screen and (-o-min-device-pixel-ratio: 3/2),
-       only screen and (min-device-pixel-ratio: 1.5) {
-    .icheckbox,
-    .iradio {
-        background-image: url(futurico@2x.png);
-        -webkit-background-size: 144px 19px;
-        background-size: 144px 19px;
-    }
-}
-
-.form-checkboxes {
-  padding-top:8px;
-}
-
-.form-checkboxes label {
-  text-transform:none;
-  font-family:'FreeSet';
-}
-
-.agree-text {
-  font-size:12px;
 }
