@@ -19,11 +19,8 @@ function getRealIpAddr()
 
 //$_POST = str_replace ("'", "", $_POST);
 if($_POST["request_lastname"] && $_POST["request_name"] && $_POST["request_email"] && $_POST["request_phone"]){
-  //подключимся к базе
-  mysql_connect('localhost', 'dengi_mts_dbu', 'dengi_mts_360d');    \
-  mysql_select_db('dengi_mts');
-  mysql_query("SET NAMES utf8");
-  $query = "INSERT INTO `requests` VALUES('',NOW(),'".getRealIpAddr()."','".mysql_real_escape_string($_POST["request_name"])."','".mysql_real_escape_string($_POST["request_lastname"])."','".mysql_real_escape_string($_POST["request_email"])."','".mysql_real_escape_string($_POST["request_phone"])."')";
+  require($_SERVER["DOCUMENT_ROOT"]."/newclients/dbcon.php");
+  $query = "INSERT INTO `requests` VALUES('',NOW(),'".getRealIpAddr()."','".mysql_real_escape_string($_POST["request_name"])."','".mysql_real_escape_string($_POST["request_lastname"])."','".mysql_real_escape_string($_POST["request_email"])."','".mysql_real_escape_string($_POST["request_phone"])."','".($from ? $from : "newclients")."')";
   mysql_query($query);
 }
 
